@@ -10,7 +10,6 @@
                     <th>ID</th>
                     <th>ФИО</th>
                     <th>Должность</th>
-                    <th>Клиника (ID)</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,7 +17,6 @@
                     <td>{{ d.id }}</td>
                     <td>{{ d.name }}</td>
                     <td>{{ d.position }}</td>
-                    <td>{{ d.clinic_id }}</td>
                 </tr>
             </tbody>
         </table>

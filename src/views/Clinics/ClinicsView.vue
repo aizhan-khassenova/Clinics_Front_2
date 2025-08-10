@@ -1,6 +1,10 @@
 <template>
     <div class="container mt-4">
-        <h1 class="mb-4">Список клиник</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">Список клиник</h1>
+            <RouterLink to="/clinics/create" class="btn btn-primary">Добавить</RouterLink>
+        </div>
+
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
                 <tr>
