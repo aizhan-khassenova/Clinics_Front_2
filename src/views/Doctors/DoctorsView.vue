@@ -1,6 +1,9 @@
 <template>
     <div class="container mt-4">
-        <h1 class="mb-4">Список врачей</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">Список врачей</h1>
+            <RouterLink to="/doctors/create" class="btn btn-primary">Добавить</RouterLink>
+        </div>
 
         <div v-if="error" class="alert alert-danger">{{ error }}</div>
 
