@@ -1,29 +1,14 @@
 <template>
-    <div class="container mt-4" style="max-width: 720px;">
-        <h1 class="mb-4">Редактировать клинику</h1>
-
-        <form @submit.prevent="submit">
-            <div class="mb-3">
-                <label class="form-label">Название</label>
-                <input type="text" class="form-control" v-model.trim="form.name">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Адрес</label>
-                <textarea type="text" class="form-control" rows="2" v-model.trim="form.address"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-            <RouterLink to="/clinics" class="btn btn-link ms-2">Отмена</RouterLink>
-        </form>
-    </div>
+    <ClinicForm :isEdit="true" :form="form" @save="submit" />
 </template>
 
 <script>
 import axios from 'axios'
+import ClinicForm from '@/views/Clinics/ClinicForm.vue'
 
 export default {
     name: 'ClinicUpdate',
+    components: { ClinicForm },
     data() {
         return {
             form: { name: '', address: '' }
@@ -46,9 +31,9 @@ export default {
                 console.error('Ошибка при загрузке данных клиники.', error)
             }
         },
-        async submit() {
+        async submit(data) {
             try {
-                await axios.put(`/api/clinics/${this.clinicId}`, this.form)
+                await axios.put(`/api/clinics/${this.clinicId}`, data)
                 this.$router.push('/clinics')
             } catch (error) {
                 console.error('Ошибка при обновлении.', error)
