@@ -11,6 +11,7 @@
                     <th>ID</th>
                     <th>Название</th>
                     <th>Адрес</th>
+                    <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,6 +19,11 @@
                     <td>{{ clinic.id }}</td>
                     <td>{{ clinic.name }}</td>
                     <td>{{ clinic.address }}</td>
+                    <td>
+                        <RouterLink :to="`/clinics/${clinic.id}/update`" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil-fill"></i>
+                        </RouterLink>
+                    </td>
                 </tr>
             </tbody>
         </table>
