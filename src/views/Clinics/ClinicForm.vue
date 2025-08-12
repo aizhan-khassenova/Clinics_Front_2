@@ -22,29 +22,44 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'ClinicForm',
     props: {
-        isEdit: Boolean,
-        form: Object
+        isEdit: Boolean
     },
     data() {
         return {
             localForm: { name: '', address: '' }
         }
     },
-    watch: {
-        form: {
-            handler(newVal) {
-                this.localForm = { name: newVal?.name || '', address: newVal?.address || '' }
-            },
-            immediate: true,
-            deep: true
+    computed: {
+        clinicId() {
+            return this.$route.params.id
+        }
+    },
+    async created() {
+        if (this.isEdit) {
+            await this.loadClinic()
         }
     },
     methods: {
-        submit() {
-            this.$emit('save', this.localForm)
+        async loadClinic() {
+            try {
+                const { data } = await axios.get(`/api/clinics/${this.clinicId}`)
+                this.localForm = { name: data?.name || '', address: data?.address || '' }
+            } catch (error) {
+                console.error('Ошибка при получении клиники', error)
+            }
+        },
+        async submit() {
+            if (this.isEdit) {
+                await axios.put(`/api/clinics/${this.clinicId}`, this.localForm)
+            } else {
+                await axios.post('/api/clinics', this.localForm)
+            }
+            this.$router.push('/clinics')
         }
     }
 }
