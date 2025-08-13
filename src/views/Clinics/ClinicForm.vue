@@ -18,6 +18,10 @@
             <button type="submit" class="btn btn-primary">Сохранить</button>
             <RouterLink to="/clinics" class="btn btn-link ms-2">Отмена</RouterLink>
         </form>
+
+        <div v-if="alertMessage" class="alert mt-4" :class="`alert-${alertType}`" role="alert">
+            {{ alertMessage }}
+        </div>
     </div>
 </template>
 
@@ -31,7 +35,9 @@ export default {
     },
     data() {
         return {
-            localForm: { name: '', address: '' }
+            localForm: { name: '', address: '' },
+            alertMessage: '',
+            alertType: 'success'
         }
     },
     computed: {
@@ -55,11 +61,30 @@ export default {
         },
         async submit() {
             if (this.isEdit) {
-                await axios.put(`/api/clinics/${this.clinicId}`, this.localForm)
+                try {
+                    await axios.put(`/api/clinics/${this.clinicId}`, this.localForm)
+                    this.alertMessage = 'Клиника успешно обновлена!'
+                    this.alertType = 'success'
+                } catch (error) {
+                    this.alertMessage = 'Ошибка при обновлении клиники'
+                    this.alertType = 'danger'
+                    console.error(error)
+                }
             } else {
-                await axios.post('/api/clinics', this.localForm)
+                try {
+                    await axios.post('/api/clinics', this.localForm)
+                    this.alertMessage = 'Клиника успешно добавлена!'
+                    this.alertType = 'success'
+                } catch (error) {
+                    this.alertMessage = 'Ошибка при добавлении клиники'
+                    this.alertType = 'danger'
+                    console.error(error)
+                }
             }
-            this.$router.push('/clinics')
+
+            setTimeout(() => {
+                this.$router.push('/clinics')
+            }, 3000)
         }
     }
 }
