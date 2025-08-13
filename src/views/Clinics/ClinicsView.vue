@@ -36,15 +36,16 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Удаление записи</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        ...
+                        Вы уверены, что хотите удалить эту запись?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="deleteClinic()">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="button" class="btn btn-danger" @click="deleteClinic()"
+                            data-bs-dismiss="modal">Удалить</button>
                     </div>
                 </div>
             </div>
@@ -75,7 +76,7 @@ export default {
             }
         },
         openDeleteModal(id) {
-            this.selectedClinicId = id; // сохраняем ID клиники
+            this.selectedClinicId = id
         },
         async deleteClinic() {
             const id = this.selectedClinicId;
