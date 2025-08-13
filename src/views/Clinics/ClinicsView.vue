@@ -24,7 +24,7 @@
                             <i class="bi bi-pencil-fill"></i>
                         </RouterLink>
                         <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal" @click="openDeleteModal(clinic.id)">
+                            data-bs-target="#deleteComponent" @click="openDeleteModal(clinic.id)">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>
@@ -32,31 +32,16 @@
             </tbody>
         </table>
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Удаление записи</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Вы уверены, что хотите удалить эту запись?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                        <button type="button" class="btn btn-danger" @click="deleteClinic()"
-                            data-bs-dismiss="modal">Удалить</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <DeleteComponent @confirm="deleteClinic" />
     </div>
 </template>
 
 <script>
+import DeleteComponent from '@/components/modals/DeleteComponent.vue';
 import axios from 'axios';
 
 export default {
+    components: { DeleteComponent },
     data() {
         return {
             clinics: [],
