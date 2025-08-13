@@ -33,6 +33,11 @@
         </table>
 
         <DeleteComponent @confirm="deleteClinic" />
+
+        <div v-if="alertMessage" class="alert position-fixed top-0 start-50 translate-middle-x mt-3"
+            :class="`alert-${alertType}`" role="alert" style="z-index: 1055;">
+            {{ alertMessage }}
+        </div>
     </div>
 </template>
 
@@ -45,11 +50,17 @@ export default {
     data() {
         return {
             clinics: [],
-            selectedClinicId: null
+            selectedClinicId: null,
+            alertMessage: '',
+            alertType: 'success',
+            hideTimer: null
         }
     },
     created() {
         this.fetchClinics();
+    },
+    beforeUnmount() {
+        if (this.hideTimer) clearTimeout(this.hideTimer)
     },
     methods: {
         async fetchClinics() {
@@ -63,14 +74,24 @@ export default {
         openDeleteModal(id) {
             this.selectedClinicId = id
         },
+        showAlert(message, type = 'success') {
+            this.alertType = type
+            this.alertMessage = message
+            if (this.hideTimer) clearTimeout(this.hideTimer)
+            this.hideTimer = setTimeout(() => {
+                this.alertMessage = ''
+            }, 3000)
+        },
         async deleteClinic() {
             const id = this.selectedClinicId;
             try {
                 await axios.delete(`/api/clinics/${id}`);
                 this.clinics = this.clinics.filter(clinic => clinic.id !== id)
                 this.selectedClinicId = null;
+                this.showAlert('Клиника успешно удалена!', 'success')
             } catch (error) {
-                console.error('Ошибка при удалении клиники: ', error);
+                this.showAlert('Ошибка при удалении клиники', 'danger')
+                console.error(error);
             }
         }
     }
