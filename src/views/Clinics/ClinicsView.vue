@@ -21,7 +21,7 @@
                     <td>{{ clinic.address }}</td>
                     <td class="d-flex flex-row">
                         <button class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="modal"
-                            data-bs-target="#listComponet" @click="openDoctors(clinic)">
+                            data-bs-target="#listComponent" @click="openDoctors(clinic)">
                             <i class="bi bi-eye-fill"></i>
                         </button>
                         <RouterLink :to="`/clinics/${clinic.id}/update`" class="btn btn-sm btn-outline-primary me-2">
