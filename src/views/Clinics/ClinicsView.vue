@@ -20,6 +20,10 @@
                     <td>{{ clinic.name }}</td>
                     <td>{{ clinic.address }}</td>
                     <td class="d-flex flex-row">
+                        <button class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="modal"
+                            data-bs-target="#listComponet" @click="openDoctors(clinic)">
+                            <i class="bi bi-eye-fill"></i>
+                        </button>
                         <RouterLink :to="`/clinics/${clinic.id}/update`" class="btn btn-sm btn-outline-primary me-2">
                             <i class="bi bi-pencil-fill"></i>
                         </RouterLink>
@@ -34,6 +38,9 @@
 
         <DeleteComponent @confirm="deleteClinic" />
 
+        <ListComponent title="Врачи клиники:" :items="doctorsInClinic" primary-field="name"
+            secondary-field="position" />
+
         <div v-if="alertMessage" class="alert position-fixed top-0 start-50 translate-middle-x mt-3"
             :class="`alert-${alertType}`" role="alert" style="z-index: 1055;">
             {{ alertMessage }}
@@ -43,17 +50,19 @@
 
 <script>
 import DeleteComponent from '@/components/modals/DeleteComponent.vue';
+import ListComponent from '@/components/modals/ListComponent.vue'
 import axios from 'axios';
 
 export default {
-    components: { DeleteComponent },
+    components: { DeleteComponent, ListComponent },
     data() {
         return {
             clinics: [],
             selectedClinicId: null,
             alertMessage: '',
             alertType: 'success',
-            hideTimer: null
+            hideTimer: null,
+            doctorsInClinic: []
         }
     },
     created() {
@@ -69,6 +78,15 @@ export default {
                 this.clinics = response.data
             } catch (error) {
                 console.error('Ошибка при загрузке клиник: ', error);
+            }
+        },
+        async openDoctors(clinic) {
+            this.doctorsInClinic = []
+            try {
+                const { data } = await axios.get(`/api/clinics/MultipleMapping/${clinic.id}`)
+                this.doctorsInClinic = data?.doctors ?? []
+            } catch (error) {
+                console.error('Ошибка при загрузке врачей в клинике:', error);
             }
         },
         openDeleteModal(id) {
