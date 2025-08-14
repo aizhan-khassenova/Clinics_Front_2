@@ -13,13 +13,19 @@
                     <th>ID</th>
                     <th>ФИО</th>
                     <th>Должность</th>
+                    <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="d in doctors" :key="d.id">
-                    <td>{{ d.id }}</td>
-                    <td>{{ d.name }}</td>
-                    <td>{{ d.position }}</td>
+                <tr v-for="doctor in doctors" :key="doctor.id">
+                    <td>{{ doctor.id }}</td>
+                    <td>{{ doctor.name }}</td>
+                    <td>{{ doctor.position }}</td>
+                    <td>
+                        <RouterLink :to="`/doctors/${doctor.id}/update`" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil-fill"></i>
+                        </RouterLink>
+                    </td>
                 </tr>
             </tbody>
         </table>
